@@ -13,15 +13,20 @@
       || imgRe.test(p.url);
   }
 -
+  function decodeHtmlEntities(url) {
+    if (!url) return url;
+    return url.replace(/&amp;/g, '&');
+  }
+-
   function postThumbnail(p) {
     if (p.over_18) {
       return "/nsfw.svg";
     } else if (p.thumbnail == "spoiler") {
       return "/spoiler.svg";
     } else if (p.thumbnail == "image" || p.thumbnail == "") {
-      return p.url;
+      return decodeHtmlEntities(p.url);
     } else {
-      return p.thumbnail;
+      return decodeHtmlEntities(p.thumbnail);
     }
   }
 -

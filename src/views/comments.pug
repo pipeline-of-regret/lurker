@@ -32,7 +32,7 @@ html
           a(href=`/r/${post.subreddit}?${sortQuery}&${viewQuery}`) r/#{post.subreddit}
 
         div.info-container 
-          - var domain = (new URL(post.url)).hostname
+          - var domain = (new URL(decodeHtmlEntities(post.url))).hostname
           p
             | #{fmtnum(post.ups)} ↑ 
             | &nbsp;·&nbsp; by u/#{post.author} 
@@ -57,8 +57,9 @@ html
                   div.gallery-item-idx
                     | #{`${item.idx}/${item.total}`}
           else if isPostImage(post)
-            a(href=`/media/${post.url}`)
-              img(src=post.url).post-media
+            - var imgUrl = decodeHtmlEntities(post.url)
+            a(href=`/media/${imgUrl}`)
+              img(src=imgUrl).post-media
           else if isPostVideo(post)
             - var url = post.secure_media.reddit_video.dash_url
             video(controls data-dashjs-player src=`${url}`).post-media
